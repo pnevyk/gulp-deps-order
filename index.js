@@ -39,11 +39,16 @@ module.exports = function (options) {
             return cb();
         }
         
+        var hasDep = 0;
         getDeps(options, file.contents.toString()).map(function (dep) {
             return path.normalize(path.dirname(file.path) + '/' + dep);
         }).forEach(function (dep) {
-            graph.push([file.path].concat(dep));
+            hasDep = 1;
+            graph.push( dep ? [ dep, file.path ] : [ file.path ] );
         });
+        if( !hasDep ){
+            graph.push( [ file.path ] );
+        }
         
         files[file.path] = file;
         
@@ -52,7 +57,7 @@ module.exports = function (options) {
         var ordered;
         
         try {
-            ordered = toposort(graph).reverse();
+            ordered = toposort(graph);
         }
         
         catch (e) {
