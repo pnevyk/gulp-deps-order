@@ -1,6 +1,6 @@
 # [gulp](http://gulpjs.com)-deps-order
 
-> Sorts files in stream by dependencies using @requires annotation. Used in conjuction with [gulp-concat](https://github.com/wearefractal/gulp-concat) to concat files in correct order to have dependent files below the theirs dependencies.
+> Sorts files in stream by dependencies using @requires annotation in source. Used in conjuction with [gulp-concat](https://github.com/wearefractal/gulp-concat) to concat files in correct order.
 
 
 ## Install
@@ -20,10 +20,10 @@ var depsOrder = require('gulp-deps-order');
 var concat = require('gulp-concat');
 
 gulp.task('default', function () {
-	return gulp.src('src/**/*.js')
-		.pipe(depsOrder())
+    return gulp.src('src/**/*.js')
+        .pipe(depsOrder())
         .pipe(concat('build.js'))
-		.pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('dist'));
 });
 ```
 
@@ -33,7 +33,7 @@ gulp.task('default', function () {
 /*
  * @requires dep1.js, ../dep2.js, sub1/dep3.js, ../sub2/dep4.js
  */
- 
+
 //your awesome code [...]
 ```
 
