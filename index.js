@@ -6,16 +6,20 @@ var async = require('async');
 var path = require('path');
 
 function getDeps(options, str) {
-    var regexp = new RegExp('\\/\\*[\\s\\S]*@' + options.annotation + '(.*)');
-    var match = str.match(regexp);
-    
-    if (match) {
-        return match[1].split(options.separator).map(function (dep) {
-            return dep.trim();
-        });
+    var deps = [];
+
+    if (options.annotation instanceof RegExp){
+        var regexp = options.annotation;
+    }else{
+        var regexp = new RegExp('\\/\\*[\\s\\S]*@' + options.annotation + '(.*)',"g");
     }
-    
-    return [];
+
+    var match;
+    while (match = regexp.exec(str)) {
+        deps.push(match[1]);
+    }
+
+    return deps;
 }
 
 module.exports = function (options) {
