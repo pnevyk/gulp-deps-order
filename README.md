@@ -46,15 +46,15 @@ gulp.task('default', function () {
 
 ##### annotation
 
-Type: `String`  
-Default: `requires`
+Type: `string` | `RegExp`
+Default: `"requires"`
 
-Plugin will search this `@<annotation>` in you source files and it extract all dependencies on the same line the annotation is.
+If string, plugin will search for `@<annotation> <dependencies>` in comments. If regular expression, plugin will search for all matches of the expression and takes first capture group as the list of dependencies. Extracted dependencies are then split by the separator.
 
 ##### separator
 
-Type: `String`  
-Default: `,`
+Type: `string`  
+Default: `","`
 
 The separator of dependencies. Each dependency is trimmed so you don't have to specify dependencies like `dep1.js,dep2.js,dep3.js` but you can add a space for better readability.
 
