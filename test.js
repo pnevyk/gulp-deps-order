@@ -1,6 +1,6 @@
 'use strict';
 var assert = require('assert');
-var gutil = require('gulp-util');
+var Vinyl = require('vinyl');
 var depsOrder = require('./index');
 
 it('should sort files by dependencies defined using @requires', function (cb) {
@@ -45,40 +45,40 @@ it('should sort files by dependencies defined using @requires', function (cb) {
         cb();
     });
 
-    stream.write(new gutil.File({
+    stream.write(new Vinyl({
         base: __dirname,
         path: __dirname + '/a.js',
-        contents: new Buffer('/* @requires sub/b.js, c.js\n */')
+        contents: Buffer.from('/* @requires sub/b.js, c.js\n */')
     }));
 
-    stream.write(new gutil.File({
+    stream.write(new Vinyl({
         base: __dirname,
         path: __dirname + '/d.js',
-        contents: new Buffer('/* @requires e.js\n */')
+        contents: Buffer.from('/* @requires e.js\n */')
     }));
 
-    stream.write(new gutil.File({
+    stream.write(new Vinyl({
         base: __dirname,
         path: __dirname + '/e.js',
-        contents: new Buffer('')
+        contents: Buffer.from('')
     }));
 
-    stream.write(new gutil.File({
+    stream.write(new Vinyl({
         base: __dirname,
         path: __dirname + '/f.js',
-        contents: new Buffer('')
+        contents: Buffer.from('')
     }));
 
-    stream.write(new gutil.File({
+    stream.write(new Vinyl({
         base: __dirname,
         path: __dirname + '/sub/b.js',
-        contents: new Buffer('/* @requires ../e.js\n */')
+        contents: Buffer.from('/* @requires ../e.js\n */')
     }));
 
-    stream.write(new gutil.File({
+    stream.write(new Vinyl({
         base: __dirname,
         path: __dirname + '/sub/c.js',
-        contents: new Buffer('/* @requires b.js, ../d.js\n */')
+        contents: Buffer.from('/* @requires b.js, ../d.js\n */')
     }));
 
     stream.end();
@@ -123,22 +123,22 @@ it('should sort files by dependencies defined using custom annotation regular ex
         cb();
     });
 
-    stream.write(new gutil.File({
+    stream.write(new Vinyl({
         base: __dirname,
         path: __dirname + '/a.js',
-        contents: new Buffer('/// <reference path="b.js" />\n/// <reference path="c.js" />')
+        contents: Buffer.from('/// <reference path="b.js" />\n/// <reference path="c.js" />')
     }));
 
-    stream.write(new gutil.File({
+    stream.write(new Vinyl({
         base: __dirname,
         path: __dirname + '/b.js',
-        contents: new Buffer('')
+        contents: Buffer.from('')
     }));
 
-    stream.write(new gutil.File({
+    stream.write(new Vinyl({
         base: __dirname,
         path: __dirname + '/c.js',
-        contents: new Buffer('/// <reference path="b.js" />')
+        contents: Buffer.from('/// <reference path="b.js" />')
     }));
 
     stream.end();
@@ -169,28 +169,28 @@ it('should emit an error if there is a cyclic dependency', function (cb) {
         cb();
     });
 
-    stream.write(new gutil.File({
+    stream.write(new Vinyl({
         base: __dirname,
         path: __dirname + '/a.js',
-        contents: new Buffer('/* @requires d.js\n */')
+        contents: Buffer.from('/* @requires d.js\n */')
     }));
 
-    stream.write(new gutil.File({
+    stream.write(new Vinyl({
         base: __dirname,
         path: __dirname + '/b.js',
-        contents: new Buffer('/* @requires a.js\n */')
+        contents: Buffer.from('/* @requires a.js\n */')
     }));
 
-    stream.write(new gutil.File({
+    stream.write(new Vinyl({
         base: __dirname,
         path: __dirname + '/c.js',
-        contents: new Buffer('/* @requires b.js\n */')
+        contents: Buffer.from('/* @requires b.js\n */')
     }));
 
-    stream.write(new gutil.File({
+    stream.write(new Vinyl({
         base: __dirname,
         path: __dirname + '/d.js',
-        contents: new Buffer('/* @requires c.js\n */')
+        contents: Buffer.from('/* @requires c.js\n */')
     }));
 
     stream.end();

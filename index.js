@@ -1,8 +1,7 @@
 'use strict';
-var PluginError = require('gulp-util').PluginError;
+var PluginError = require('plugin-error');
 var through = require('through2');
 var toposort = require('toposort');
-var async = require('async');
 var path = require('path');
 
 function getDeps(options, str) {
